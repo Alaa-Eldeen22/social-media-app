@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
-public class UserServiceApplication {
+public class SocialMediaApplication {
 	@Autowired
 	private Environment env;
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserServiceApplication.class, args);
+		SpringApplication.run(SocialMediaApplication.class, args);
 
 	}
 

@@ -32,7 +32,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    // Uncomment and customize for specific exceptions as needed
     // @ExceptionHandler(UserNotFoundException.class)
     // public ResponseEntity<String>
     // handleUserNotFoundException(UserNotFoundException ex) {
