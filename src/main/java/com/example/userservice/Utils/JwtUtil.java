@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -20,7 +21,6 @@ public class JwtUtil {
     private Long expiration;
 
     public String generateToken(String email) {
-
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -29,12 +29,15 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Boolean validateToken(String token, String email) {
-        String tokenEmail = extractEmail(token);
-        return email.equals(tokenEmail) && !isTokenExpired(token);
+    public String validateTokenAndRetrieveSubject(String token) throws JwtException {
+        String email = extractEmail(token);
+        if (isTokenExpired(token)) {
+            throw new JwtException("Token is expired");
+        }
+        return email;
     }
 
-    public String extractEmail(String token) {
+    public String extractEmail(String token) throws JwtException {
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
                 .build()
@@ -47,11 +50,11 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    private Boolean isTokenExpired(String token) {
+    private Boolean isTokenExpired(String token) throws JwtException {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    private Date extractExpiration(String token) throws JwtException {
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
                 .build()
@@ -59,5 +62,4 @@ public class JwtUtil {
                 .getBody()
                 .getExpiration();
     }
-
 }
