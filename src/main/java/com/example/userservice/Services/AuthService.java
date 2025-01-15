@@ -27,6 +27,9 @@ public class AuthService {
     @Autowired
     private RandomUsername randomUsername;
 
+    @Autowired
+    private AuthResponse response;
+
     public AuthResponse register(RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
@@ -44,10 +47,9 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getUsername());
 
-        AuthResponse response = new AuthResponse();
-        response.setEmail(user.getEmail());
+        response.setUsername(user.getUsername());
         response.setToken(token);
         return response;
     }
@@ -62,8 +64,7 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(user.getEmail());
 
-        AuthResponse response = new AuthResponse();
-        response.setEmail(user.getEmail());
+        response.setUsername(user.getEmail());
         response.setToken(token);
         return response;
     }

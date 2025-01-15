@@ -20,9 +20,9 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String email) {
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                 .signWith(getSecretKey())
@@ -30,14 +30,14 @@ public class JwtUtil {
     }
 
     public String validateTokenAndRetrieveSubject(String token) throws JwtException {
-        String email = extractEmail(token);
+        String username = extractUsername(token);
         if (isTokenExpired(token)) {
             throw new JwtException("Token is expired");
         }
-        return email;
+        return username;
     }
 
-    public String extractEmail(String token) throws JwtException {
+    public String extractUsername(String token) throws JwtException {
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
                 .build()

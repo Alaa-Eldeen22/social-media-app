@@ -18,8 +18,8 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userRes = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userRes = userRepository.findByUsername(username);
 
         if (userRes.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         User user = userRes.get();
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(email)
+                .withUsername(username)
                 .password(user.getPassword())
                 .authorities("USER")
                 .build();

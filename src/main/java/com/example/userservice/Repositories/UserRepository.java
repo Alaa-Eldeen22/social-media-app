@@ -8,4 +8,7 @@ import com.example.userservice.Entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByUsername(String username);
+
 }

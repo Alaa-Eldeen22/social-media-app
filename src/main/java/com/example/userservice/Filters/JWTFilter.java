@@ -42,9 +42,9 @@ public class JWTFilter extends OncePerRequestFilter {
             } else {
 
                 try {
-                    String email = jwtUtil.validateTokenAndRetrieveSubject(token);
+                    String username = jwtUtil.validateTokenAndRetrieveSubject(token);
 
-                    UserDetails userDetails = userService.loadUserByUsername(email);
+                    UserDetails userDetails = userService.loadUserByUsername(username);
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                             null, userDetails.getAuthorities());
