@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ProfileResponse {
 
-    private String fisrtName;
+    private String firstName;
     private String lastName;
     private String bio;
     private String profilePictureUrl;

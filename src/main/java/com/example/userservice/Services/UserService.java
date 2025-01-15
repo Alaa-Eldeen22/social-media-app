@@ -1,15 +1,13 @@
 package com.example.userservice.Services;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.userservice.DTOs.ProfileResponse;
 import com.example.userservice.Entities.User;
+import com.example.userservice.Exception.UserNotFoundException;
 import com.example.userservice.Repositories.UserRepository;
 
 @Service
@@ -19,9 +17,9 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UserNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new RuntimeException("user not found"));
+                () -> new UserNotFoundException("user not found"));
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(username)
@@ -30,14 +28,14 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public ProfileResponse getProfile(String username) {
+    public ProfileResponse getProfile(String username) throws UserNotFoundException {
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("user not found"));
+                .orElseThrow(() -> new UserNotFoundException("user not found"));
 
         ProfileResponse profileResponse = new ProfileResponse();
 
-        profileResponse.setFisrtName(user.getFirstName());
+        profileResponse.setFirstName(user.getFirstName());
         profileResponse.setLastName(user.getLastName());
 
         profileResponse.setProfilePictureUrl(user.getProfilePictureUrl());

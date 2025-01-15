@@ -8,6 +8,7 @@ import com.example.userservice.DTOs.AuthResponse;
 import com.example.userservice.DTOs.LoginRequest;
 import com.example.userservice.DTOs.RegisterRequest;
 import com.example.userservice.Entities.User;
+import com.example.userservice.Exception.UserNotFoundException;
 import com.example.userservice.Repositories.UserRepository;
 import com.example.userservice.Utils.JwtUtil;
 import com.example.userservice.Utils.RandomUsername;
@@ -57,7 +58,7 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
