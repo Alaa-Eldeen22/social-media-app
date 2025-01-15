@@ -10,6 +10,7 @@ import com.example.userservice.DTOs.RegisterRequest;
 import com.example.userservice.Entities.User;
 import com.example.userservice.Repositories.UserRepository;
 import com.example.userservice.Utils.JwtUtil;
+import com.example.userservice.Utils.RandomUsername;
 
 @Service
 public class AuthService {
@@ -23,16 +24,23 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private RandomUsername randomUsername;
+
     public AuthResponse register(RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
+
+        String uniqueUsername = randomUsername.generateUniqueUsername(registerRequest.getFirstName(),
+                registerRequest.getLastName());
 
         User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
+        user.setUsername(uniqueUsername);
 
         userRepository.save(user);
 
