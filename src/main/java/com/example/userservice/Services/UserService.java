@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.userservice.DTOs.ProfileResponse;
 import com.example.userservice.Entities.User;
 import com.example.userservice.Repositories.UserRepository;
 
@@ -19,13 +20,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userRes = userRepository.findByUsername(username);
-
-        if (userRes.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        User user = userRes.get();
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new RuntimeException("user not found"));
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(username)
@@ -34,4 +30,21 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
+    public ProfileResponse getProfile(String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("user not found"));
+
+        ProfileResponse profileResponse = new ProfileResponse();
+
+        profileResponse.setFisrtName(user.getFirstName());
+        profileResponse.setLastName(user.getLastName());
+
+        profileResponse.setProfilePictureUrl(user.getProfilePictureUrl());
+        profileResponse.setCoverPictureUrl(user.getCoverPictureUrl());
+
+        profileResponse.setBio(user.getBio());
+
+        return profileResponse;
+    }
 }

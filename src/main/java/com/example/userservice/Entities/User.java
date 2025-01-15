@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -34,4 +35,21 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
+    @Column(name = "cover_picture_url")
+    private String coverPictureUrl;
+
+    private String bio;
+
+    @PrePersist
+    private void setDefaultValues() {
+        if (profilePictureUrl == null || profilePictureUrl.isBlank()) {
+            profilePictureUrl = "https://cdn.pixabay.com/photo/2023/05/02/10/35/avatar-7964945_1280.png";
+        }
+
+    }
+
 }
