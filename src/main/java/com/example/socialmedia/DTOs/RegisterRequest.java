@@ -1,4 +1,4 @@
-package com.example.userservice.DTOs;
+package com.example.socialmedia.DTOs;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

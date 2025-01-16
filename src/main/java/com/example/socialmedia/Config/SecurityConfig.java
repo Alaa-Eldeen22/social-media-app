@@ -1,4 +1,4 @@
-package com.example.userservice.Config;
+package com.example.socialmedia.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.userservice.Filters.JWTFilter;
+import com.example.socialmedia.Filters.JWTFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -28,12 +28,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless
                                                                                                               // session
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Allow all requests to /api/auth/**
-                        .requestMatchers(HttpMethod.GET, "/api/users/{username}").permitAll() // Allow ONLY GET
-                                                                                              // /api/users/{username}
-                                                                                              // without authentication
-                        .anyRequest().authenticated() // Authenticate all other requests
-                )
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/{username}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/user/{username}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/posts").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/posts/{postId}").authenticated() // Require
+                                                                                                // authentication to
+                                                                                                // update a post
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
         return http.build();

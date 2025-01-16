@@ -1,15 +1,15 @@
-package com.example.userservice.Services;
+package com.example.socialmedia.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.example.userservice.DTOs.ProfileResponse;
-import com.example.userservice.DTOs.UpdateProfileRequest;
-import com.example.userservice.Entities.User;
-import com.example.userservice.Exception.UserNotFoundException;
-import com.example.userservice.Repositories.UserRepository;
+import com.example.socialmedia.DTOs.ProfileResponse;
+import com.example.socialmedia.DTOs.UpdateProfileRequest;
+import com.example.socialmedia.Entities.User;
+import com.example.socialmedia.Exception.UserNotFoundException;
+import com.example.socialmedia.Repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
