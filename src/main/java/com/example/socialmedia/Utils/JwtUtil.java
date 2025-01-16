@@ -1,4 +1,4 @@
-package com.example.userservice.Utils;
+package com.example.socialmedia.Utils;
 
 import java.util.Date;
 

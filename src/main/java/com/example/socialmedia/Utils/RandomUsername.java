@@ -1,11 +1,11 @@
-package com.example.userservice.Utils;
+package com.example.socialmedia.Utils;
 
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.userservice.Repositories.UserRepository;
+import com.example.socialmedia.Repositories.UserRepository;
 
 @Component
 public class RandomUsername {

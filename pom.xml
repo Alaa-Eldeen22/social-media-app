@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>user-service</artifactId>
+	<artifactId>social-media</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-service</name>
-	<description>A microservice for user registration, authentication, and profile management.</description>
+	<name>social-media</name>
+	<description>A social media application</description>
 	<url/>
 	<licenses>
 		<license/>

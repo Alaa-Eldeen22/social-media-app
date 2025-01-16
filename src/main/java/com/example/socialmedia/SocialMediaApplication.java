@@ -1,4 +1,4 @@
-package com.example.userservice;
+package com.example.socialmedia;
 
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;

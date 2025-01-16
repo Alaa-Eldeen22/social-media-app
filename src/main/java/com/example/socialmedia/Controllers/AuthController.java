@@ -1,4 +1,4 @@
-package com.example.userservice.Controllers;
+package com.example.socialmedia.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.userservice.DTOs.AuthResponse;
-import com.example.userservice.DTOs.LoginRequest;
-import com.example.userservice.DTOs.RegisterRequest;
-import com.example.userservice.Services.AuthService;
+import com.example.socialmedia.DTOs.AuthResponse;
+import com.example.socialmedia.DTOs.LoginRequest;
+import com.example.socialmedia.DTOs.RegisterRequest;
+import com.example.socialmedia.Services.AuthService;
 
 import jakarta.validation.Valid;
 

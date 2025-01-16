@@ -1,4 +1,4 @@
-package com.example.userservice.DTOs;
+package com.example.socialmedia.DTOs;
 
 import lombok.Data;
 

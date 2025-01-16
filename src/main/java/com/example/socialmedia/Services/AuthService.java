@@ -1,17 +1,17 @@
-package com.example.userservice.Services;
+package com.example.socialmedia.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.userservice.DTOs.AuthResponse;
-import com.example.userservice.DTOs.LoginRequest;
-import com.example.userservice.DTOs.RegisterRequest;
-import com.example.userservice.Entities.User;
-import com.example.userservice.Exception.UserNotFoundException;
-import com.example.userservice.Repositories.UserRepository;
-import com.example.userservice.Utils.JwtUtil;
-import com.example.userservice.Utils.RandomUsername;
+import com.example.socialmedia.DTOs.AuthResponse;
+import com.example.socialmedia.DTOs.LoginRequest;
+import com.example.socialmedia.DTOs.RegisterRequest;
+import com.example.socialmedia.Entities.User;
+import com.example.socialmedia.Exception.UserNotFoundException;
+import com.example.socialmedia.Repositories.UserRepository;
+import com.example.socialmedia.Utils.JwtUtil;
+import com.example.socialmedia.Utils.RandomUsername;
 
 @Service
 public class AuthService {

@@ -4,15 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.webauthn.api.CredProtectAuthenticationExtensionsClientInput.CredProtect;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.socialmedia.DTOs.CreatePostRequest;
 import com.example.socialmedia.DTOs.PostResponse;
@@ -24,13 +16,12 @@ import com.example.socialmedia.Services.PostService;
 public class PostController {
 
     @Autowired
-    PostService postService;
+    private PostService postService;
 
-    @PostMapping
-    public ResponseEntity<PostResponse> creatPost(
+    @PostMapping("/user/{username}")
+    public ResponseEntity<PostResponse> createPost(
             @PathVariable String username,
             @RequestBody CreatePostRequest request) {
-
         PostResponse postResponse = postService.createPost(username, request);
         return ResponseEntity.ok(postResponse);
     }
@@ -38,18 +29,21 @@ public class PostController {
     @GetMapping("/user/{username}")
     public ResponseEntity<List<PostResponse>> getPostsByUsers(@PathVariable String username) {
         List<PostResponse> posts = postService.getPostsByUser(username);
-
+        if (posts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(posts);
     }
 
-    @PutMapping("/{postId}")
+    @PutMapping("/{postId}/{username}")
     public ResponseEntity<PostResponse> updatePost(
             @PathVariable Long postId,
-            @RequestParam String username,
+            @PathVariable String username,
             @RequestBody UpdatePostRequest request) {
-
         PostResponse updatedPost = postService.updatePost(postId, username, request);
-        
+        if (updatedPost == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updatedPost);
     }
 }

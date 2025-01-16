@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.DTOs.CreatePostRequest;
 import com.example.socialmedia.DTOs.PostResponse;
+import com.example.socialmedia.DTOs.UpdatePostRequest;
 import com.example.socialmedia.Entities.Post;
 import com.example.socialmedia.Entities.User;
+import com.example.socialmedia.Exception.PostNotFoundException;
 import com.example.socialmedia.Exception.UserNotFoundException;
 import com.example.socialmedia.Repositories.PostRepository;
 import com.example.socialmedia.Repositories.UserRepository;
@@ -41,6 +43,21 @@ public class PostService {
         return posts.stream()
                 .map(this::mapToPostResponse)
                 .collect(Collectors.toList());
+    }
+
+    public PostResponse updatePost(Long postId, String username, UpdatePostRequest request) {
+        Post post = postRepository.findByIdAndUserUsername(postId, username)
+                .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
+
+        if (request.getContent() != null) {
+            post.setContent(request.getContent());
+        }
+        if (request.getImageUrl() != null) {
+            post.setImageUrl(request.getImageUrl());
+        }
+
+        Post updatedPost = postRepository.save(post);
+        return mapToPostResponse(updatedPost);
     }
 
     private PostResponse mapToPostResponse(Post post) {

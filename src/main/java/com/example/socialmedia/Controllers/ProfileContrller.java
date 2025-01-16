@@ -1,4 +1,4 @@
-package com.example.userservice.Controllers;
+package com.example.socialmedia.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.userservice.DTOs.ProfileResponse;
-import com.example.userservice.DTOs.UpdateProfileRequest;
-import com.example.userservice.Services.UserService;
+import com.example.socialmedia.DTOs.ProfileResponse;
+import com.example.socialmedia.DTOs.UpdateProfileRequest;
+import com.example.socialmedia.Services.UserService;
 
 @RestController
 @RequestMapping("api/users")

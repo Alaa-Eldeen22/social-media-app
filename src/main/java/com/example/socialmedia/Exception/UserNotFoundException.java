@@ -1,4 +1,4 @@
-package com.example.userservice.Exception;
+package com.example.socialmedia.Exception;
 
 public class UserNotFoundException extends RuntimeException {
 

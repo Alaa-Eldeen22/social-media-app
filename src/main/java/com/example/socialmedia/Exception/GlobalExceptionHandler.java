@@ -1,4 +1,4 @@
-package com.example.userservice.Exception;
+package com.example.socialmedia.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
