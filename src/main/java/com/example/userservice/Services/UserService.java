@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.example.userservice.DTOs.ProfileResponse;
+import com.example.userservice.DTOs.UpdateProfileRequest;
 import com.example.userservice.Entities.User;
 import com.example.userservice.Exception.UserNotFoundException;
 import com.example.userservice.Repositories.UserRepository;
@@ -42,6 +43,39 @@ public class UserService implements UserDetailsService {
         profileResponse.setCoverPictureUrl(user.getCoverPictureUrl());
 
         profileResponse.setBio(user.getBio());
+
+        return profileResponse;
+    }
+
+    public ProfileResponse updateProfile(String username, UpdateProfileRequest updateProfileRequest) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("user not found"));
+
+        if (updateProfileRequest.getFirstName() != null) {
+            user.setFirstName(updateProfileRequest.getFirstName());
+        }
+        if (updateProfileRequest.getLastName() != null) {
+            user.setLastName(updateProfileRequest.getLastName());
+        }
+        if (updateProfileRequest.getBio() != null) {
+            user.setBio(updateProfileRequest.getBio());
+        }
+        if (updateProfileRequest.getProfilePictureUrl() != null) {
+            user.setProfilePictureUrl(updateProfileRequest.getProfilePictureUrl());
+        }
+        if (updateProfileRequest.getCoverPictureUrl() != null) {
+            user.setCoverPictureUrl(updateProfileRequest.getCoverPictureUrl());
+        }
+
+        userRepository.save(user);
+
+        ProfileResponse profileResponse = new ProfileResponse();
+        profileResponse.setFirstName(user.getFirstName());
+        profileResponse.setLastName(user.getLastName());
+        profileResponse.setBio(user.getBio());
+        profileResponse.setProfilePictureUrl(user.getProfilePictureUrl());
+        profileResponse.setCoverPictureUrl(user.getCoverPictureUrl());
 
         return profileResponse;
     }
