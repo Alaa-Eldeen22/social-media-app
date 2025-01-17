@@ -20,8 +20,9 @@ public class FollowService {
     @Autowired
     private UserUtils userUtils;
 
-    // Follow a user
-    public void followUser(String followerUsername, String followedUsername) {
+    public void followUser(String followedUsername) {
+        String followerUsername = userUtils.getAuthenticatedUsername();
+
         User follower = userUtils.getUserByUsername(followerUsername);
         User followed = userUtils.getUserByUsername(followedUsername);
 
@@ -34,8 +35,8 @@ public class FollowService {
         }
     }
 
-    // Unfollow a user
-    public void unfollowUser(String followerUsername, String followedUsername) {
+    public void unfollowUser(String followedUsername) {
+        String followerUsername = userUtils.getAuthenticatedUsername();
         User follower = userUtils.getUserByUsername(followerUsername);
         User followed = userUtils.getUserByUsername(followedUsername);
 
@@ -43,7 +44,9 @@ public class FollowService {
     }
 
     // Get followers of a user
-    public List<FollowerResponse> getFollowers(String username) {
+    public List<FollowerResponse> getFollowers() {
+        String username = userUtils.getAuthenticatedUsername();
+
         User user = userUtils.getUserByUsername(username);
 
         return followRepository.findByFollowed(user).stream().map(
@@ -54,7 +57,9 @@ public class FollowService {
     }
 
     // Get users that a user is following
-    public List<FollowerResponse> getFollowing(String username) {
+    public List<FollowerResponse> getFollowing() {
+        String username = userUtils.getAuthenticatedUsername();
+
         User user = userUtils.getUserByUsername(username);
 
         return followRepository.findByFollower(user).stream().map(

@@ -20,7 +20,7 @@ public class FollowController {
     public ResponseEntity<String> followUser(
             @RequestParam String followerUsername,
             @RequestParam String followedUsername) {
-        followService.followUser(followerUsername, followedUsername);
+        followService.followUser(followedUsername);
         return ResponseEntity.ok("Followed successfully");
     }
 
@@ -28,19 +28,19 @@ public class FollowController {
     public ResponseEntity<String> unfollowUser(
             @RequestParam String followerUsername,
             @RequestParam String followedUsername) {
-        followService.unfollowUser(followerUsername, followedUsername);
+        followService.unfollowUser(followedUsername);
         return ResponseEntity.ok("Unfollowed successfully");
     }
 
-    @GetMapping("/followers/{username}")
-    public ResponseEntity<List<FollowerResponse>> getFollowers(@PathVariable String username) {
-        List<FollowerResponse> followers = followService.getFollowers(username);
+    @GetMapping("/followers")
+    public ResponseEntity<List<FollowerResponse>> getFollowers() {
+        List<FollowerResponse> followers = followService.getFollowers();
         return ResponseEntity.ok(followers);
     }
 
-    @GetMapping("/following/{username}")
-    public ResponseEntity<List<FollowerResponse>> getFollowing(@PathVariable String username) {
-        List<FollowerResponse> following = followService.getFollowing(username);
+    @GetMapping("/following")
+    public ResponseEntity<List<FollowerResponse>> getFollowing() {
+        List<FollowerResponse> following = followService.getFollowing();
         return ResponseEntity.ok(following);
     }
 }
