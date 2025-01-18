@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.socialmedia.DTOs.FollowerResponse;
+import com.example.socialmedia.DTOs.FollowFriendshipResponse;
 import com.example.socialmedia.Entities.Follow;
 import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Repositories.FollowRepository;
@@ -44,26 +44,26 @@ public class FollowService {
     }
 
     // Get followers of a user
-    public List<FollowerResponse> getFollowers() {
+    public List<FollowFriendshipResponse> getFollowers() {
         String username = userUtils.getAuthenticatedUsername();
 
         User user = userUtils.getUserByUsername(username);
 
         return followRepository.findByFollowed(user).stream().map(
-                follow -> new FollowerResponse(
+                follow -> new FollowFriendshipResponse(
                         follow.getFollower().getUsername(), follow.getFollower().getProfilePictureUrl()))
                 .toList();
 
     }
 
     // Get users that a user is following
-    public List<FollowerResponse> getFollowing() {
+    public List<FollowFriendshipResponse> getFollowing() {
         String username = userUtils.getAuthenticatedUsername();
 
         User user = userUtils.getUserByUsername(username);
 
         return followRepository.findByFollower(user).stream().map(
-                follow -> new FollowerResponse(
+                follow -> new FollowFriendshipResponse(
                         follow.getFollowed().getUsername(), follow.getFollower().getProfilePictureUrl()))
                 .toList();
 

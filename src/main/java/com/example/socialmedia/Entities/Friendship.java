@@ -1,5 +1,7 @@
 package com.example.socialmedia.Entities;
 
+import com.example.socialmedia.Enums.FriendshipStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +31,3 @@ public class Friendship {
     private FriendshipStatus status;
 }
 
-enum FriendshipStatus {
-    PENDING, ACCEPTED, REJECTED
-}

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.socialmedia.DTOs.FollowerResponse;
+import com.example.socialmedia.DTOs.FollowFriendshipResponse;
 import com.example.socialmedia.Services.FollowService;
 
 @RestController
@@ -18,7 +18,6 @@ public class FollowController {
 
     @PostMapping("/follow")
     public ResponseEntity<String> followUser(
-            @RequestParam String followerUsername,
             @RequestParam String followedUsername) {
         followService.followUser(followedUsername);
         return ResponseEntity.ok("Followed successfully");
@@ -26,21 +25,20 @@ public class FollowController {
 
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollowUser(
-            @RequestParam String followerUsername,
             @RequestParam String followedUsername) {
         followService.unfollowUser(followedUsername);
         return ResponseEntity.ok("Unfollowed successfully");
     }
 
     @GetMapping("/followers")
-    public ResponseEntity<List<FollowerResponse>> getFollowers() {
-        List<FollowerResponse> followers = followService.getFollowers();
+    public ResponseEntity<List<FollowFriendshipResponse>> getFollowers() {
+        List<FollowFriendshipResponse> followers = followService.getFollowers();
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/following")
-    public ResponseEntity<List<FollowerResponse>> getFollowing() {
-        List<FollowerResponse> following = followService.getFollowing();
+    public ResponseEntity<List<FollowFriendshipResponse>> getFollowing() {
+        List<FollowFriendshipResponse> following = followService.getFollowing();
         return ResponseEntity.ok(following);
     }
 }
