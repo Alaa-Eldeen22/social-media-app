@@ -3,7 +3,9 @@ package com.example.socialmedia.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.socialmedia.DTOs.CreatePostRequest;
@@ -18,32 +20,37 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/user/{username}")
-    public ResponseEntity<PostResponse> createPost(
-            @PathVariable String username,
-            @RequestBody CreatePostRequest request) {
-        PostResponse postResponse = postService.createPost(username, request);
-        return ResponseEntity.ok(postResponse);
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping
+    public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest request) {
+        PostResponse postResponse = postService.createPost(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(postResponse);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("{username}")
     public ResponseEntity<List<PostResponse>> getPostsByUsers(@PathVariable String username) {
         List<PostResponse> posts = postService.getPostsByUser(username);
-        if (posts.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+
         return ResponseEntity.ok(posts);
     }
 
-    @PutMapping("/{postId}/{username}")
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{postId}")
     public ResponseEntity<PostResponse> updatePost(
             @PathVariable Long postId,
-            @PathVariable String username,
             @RequestBody UpdatePostRequest request) {
-        PostResponse updatedPost = postService.updatePost(postId, username, request);
-        if (updatedPost == null) {
-            return ResponseEntity.notFound().build();
-        }
+
+        PostResponse updatedPost = postService.updatePost(postId, request);
+
         return ResponseEntity.ok(updatedPost);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,11 +9,11 @@ import com.example.socialmedia.DTOs.CreatePostRequest;
 import com.example.socialmedia.DTOs.PostResponse;
 import com.example.socialmedia.DTOs.UpdatePostRequest;
 import com.example.socialmedia.Entities.Post;
-import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Exception.PostNotFoundException;
-import com.example.socialmedia.Exception.UserNotFoundException;
+import com.example.socialmedia.Mappers.PostMapper;
 import com.example.socialmedia.Repositories.PostRepository;
-import com.example.socialmedia.Repositories.UserRepository;
+import com.example.socialmedia.Utils.UserUtils;
+
 import java.util.List;
 
 @Service
@@ -23,31 +23,33 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserUtils userUtils;
 
-    public PostResponse createPost(String username, CreatePostRequest request) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    @Autowired
+    private PostMapper postMapper;
 
-        Post post = new Post();
-        post.setContent(request.getContent());
-        post.setImageUrl(request.getImageUrl());
-        post.setUser(user);
+    public PostResponse createPost(CreatePostRequest request) {
+
+        Post post = postMapper.toPost(request);
+        post.setUser(userUtils.getAuthenticatedUser());
 
         Post savedPost = postRepository.save(post);
-        return mapToPostResponse(savedPost);
+
+        return postMapper.toPostResponse(savedPost);
     }
 
     public List<PostResponse> getPostsByUser(String username) {
+
         List<Post> posts = postRepository.findByUserUsernameOrderByCreatedAtDesc(username);
         return posts.stream()
-                .map(this::mapToPostResponse)
+                .map(postMapper::toPostResponse)
                 .collect(Collectors.toList());
     }
 
-    public PostResponse updatePost(Long postId, String username, UpdatePostRequest request) {
-        Post post = postRepository.findByIdAndUserUsername(postId, username)
-                .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
+    public PostResponse updatePost(Long postId, UpdatePostRequest request) {
+        String username = userUtils.getAuthenticatedUser().getUsername();
+
+        Post post = findPostByIdAndUsername(postId, username);
 
         if (request.getContent() != null) {
             post.setContent(request.getContent());
@@ -57,17 +59,20 @@ public class PostService {
         }
 
         Post updatedPost = postRepository.save(post);
-        return mapToPostResponse(updatedPost);
+        return postMapper.toPostResponse(updatedPost);
     }
 
-    private PostResponse mapToPostResponse(Post post) {
-        PostResponse response = new PostResponse();
-        response.setId(post.getId());
-        response.setContent(post.getContent());
-        response.setImageUrl(post.getImageUrl());
-        response.setCreatedAt(post.getCreatedAt());
-        response.setUsername(post.getUser().getUsername());
-        return response;
+    public void deletePost(Long postId) {
+        String username = userUtils.getAuthenticatedUser().getUsername();
+
+        Post post = findPostByIdAndUsername(postId, username);
+
+        postRepository.delete(post);
+    }
+
+    private Post findPostByIdAndUsername(Long postId, String username) {
+        return postRepository.findByIdAndUserUsername(postId, username)
+                .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
     }
 
 }

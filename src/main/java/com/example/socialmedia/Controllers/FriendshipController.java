@@ -17,29 +17,29 @@ public class FriendshipController {
     private FriendshipService friendshipService;
 
     // Send a friend request
-    @PostMapping("/send-request")
-    public ResponseEntity<String> sendFriendRequest(@RequestParam String receiverUsername) {
+    @PostMapping("/send-request/{receiverUsername}")
+    public ResponseEntity<String> sendFriendRequest(@PathVariable String receiverUsername) {
         friendshipService.sendFriendRequest(receiverUsername);
         return ResponseEntity.ok("Friend request sent successfully");
     }
 
     // Accept a friend request
-    @PostMapping("/accept-request")
-    public ResponseEntity<String> acceptFriendRequest(@RequestParam String requesterUsername) {
+    @PostMapping("/accept-request/{requesterUsername}")
+    public ResponseEntity<String> acceptFriendRequest(@PathVariable String requesterUsername) {
         friendshipService.acceptFriendRequest(requesterUsername);
         return ResponseEntity.ok("Friend request accepted successfully");
     }
 
     // Reject a friend request
-    @PostMapping("/reject-request")
-    public ResponseEntity<String> rejectFriendRequest(@RequestParam String requesterUsername) {
+    @PostMapping("/reject-request/{requesterUsername}")
+    public ResponseEntity<String> rejectFriendRequest(@PathVariable String requesterUsername) {
         friendshipService.rejectFriendRequest(requesterUsername);
         return ResponseEntity.ok("Friend request rejected successfully");
     }
 
     // Unfriend a user
-    @PostMapping("/unfriend")
-    public ResponseEntity<String> unfriend(@RequestParam String usernameToUnfriend) {
+    @PostMapping("/unfriend/{usernameToUnfriend}")
+    public ResponseEntity<String> unfriend(@PathVariable String usernameToUnfriend) {
         friendshipService.unfriend(usernameToUnfriend);
         return ResponseEntity.ok("Unfriended successfully");
     }

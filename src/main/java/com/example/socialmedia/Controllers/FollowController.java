@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.socialmedia.DTOs.FollowFriendshipResponse;
@@ -16,13 +17,15 @@ public class FollowController {
     @Autowired
     private FollowService followService;
 
-    @PostMapping("/follow")
+    @PreAuthorize("isAuthenczticated()")
+    @PostMapping("/follow")    
     public ResponseEntity<String> followUser(
             @RequestParam String followedUsername) {
         followService.followUser(followedUsername);
         return ResponseEntity.ok("Followed successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollowUser(
             @RequestParam String followedUsername) {
@@ -30,12 +33,14 @@ public class FollowController {
         return ResponseEntity.ok("Unfollowed successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/followers")
     public ResponseEntity<List<FollowFriendshipResponse>> getFollowers() {
         List<FollowFriendshipResponse> followers = followService.getFollowers();
         return ResponseEntity.ok(followers);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/following")
     public ResponseEntity<List<FollowFriendshipResponse>> getFollowing() {
         List<FollowFriendshipResponse> following = followService.getFollowing();

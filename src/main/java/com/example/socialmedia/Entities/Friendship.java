@@ -15,6 +15,13 @@ import lombok.Data;
 @Entity
 @Data
 public class Friendship {
+
+    public Friendship(User requester, User receiver, FriendshipStatus status) {
+        this.requester = requester;
+        this.receiver = receiver;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +37,3 @@ public class Friendship {
     @Enumerated(EnumType.STRING)
     private FriendshipStatus status;
 }
-

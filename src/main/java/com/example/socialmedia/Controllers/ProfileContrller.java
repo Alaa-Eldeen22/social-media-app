@@ -14,7 +14,7 @@ import com.example.socialmedia.DTOs.UpdateProfileRequest;
 import com.example.socialmedia.Services.UserService;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 public class ProfileContrller {
 
     @Autowired

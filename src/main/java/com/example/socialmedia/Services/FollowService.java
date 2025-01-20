@@ -2,28 +2,31 @@ package com.example.socialmedia.Services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.DTOs.FollowFriendshipResponse;
 import com.example.socialmedia.Entities.Follow;
 import com.example.socialmedia.Entities.User;
+import com.example.socialmedia.Mappers.FriendshipMapper;
 import com.example.socialmedia.Repositories.FollowRepository;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
 public class FollowService {
 
-    @Autowired
-    private FollowRepository followRepository;
+    private final FollowRepository followRepository;
+    private final UserUtils userUtils;
+    private final FriendshipMapper friendshipMapper;
 
-    @Autowired
-    private UserUtils userUtils;
+    // Constructor injection
+    public FollowService(FollowRepository followRepository, UserUtils userUtils, FriendshipMapper friendshipMapper) {
+        this.followRepository = followRepository;
+        this.userUtils = userUtils;
+        this.friendshipMapper = friendshipMapper;
+    }
 
     public void followUser(String followedUsername) {
-        String followerUsername = userUtils.getAuthenticatedUsername();
-
-        User follower = userUtils.getUserByUsername(followerUsername);
+        User follower = userUtils.getAuthenticatedUser();
         User followed = userUtils.getUserByUsername(followedUsername);
 
         // Check if the relationship already exists
@@ -36,8 +39,7 @@ public class FollowService {
     }
 
     public void unfollowUser(String followedUsername) {
-        String followerUsername = userUtils.getAuthenticatedUsername();
-        User follower = userUtils.getUserByUsername(followerUsername);
+        User follower = userUtils.getAuthenticatedUser();
         User followed = userUtils.getUserByUsername(followedUsername);
 
         followRepository.deleteByFollowerAndFollowed(follower, followed);
@@ -45,27 +47,19 @@ public class FollowService {
 
     // Get followers of a user
     public List<FollowFriendshipResponse> getFollowers() {
-        String username = userUtils.getAuthenticatedUsername();
+        User user = userUtils.getAuthenticatedUser();
 
-        User user = userUtils.getUserByUsername(username);
-
-        return followRepository.findByFollowed(user).stream().map(
-                follow -> new FollowFriendshipResponse(
-                        follow.getFollower().getUsername(), follow.getFollower().getProfilePictureUrl()))
+        return followRepository.findByFollowed(user).stream()
+                .map(follow -> friendshipMapper.toFollowFriendshipResponse(follow.getFollower()))
                 .toList();
-
     }
 
     // Get users that a user is following
     public List<FollowFriendshipResponse> getFollowing() {
-        String username = userUtils.getAuthenticatedUsername();
+        User user = userUtils.getAuthenticatedUser();
 
-        User user = userUtils.getUserByUsername(username);
-
-        return followRepository.findByFollower(user).stream().map(
-                follow -> new FollowFriendshipResponse(
-                        follow.getFollowed().getUsername(), follow.getFollower().getProfilePictureUrl()))
+        return followRepository.findByFollower(user).stream()
+                .map(follow -> friendshipMapper.toFollowFriendshipResponse(follow.getFollowed()))
                 .toList();
-
     }
 }

@@ -16,7 +16,7 @@ import com.example.socialmedia.Services.AuthService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 @Validated
 public class AuthController {
 
