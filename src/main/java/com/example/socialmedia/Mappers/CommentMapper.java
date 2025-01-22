@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.example.socialmedia.DTOs.CommentResponse;
-import com.example.socialmedia.DTOs.CreateCommentRequest;
+import com.example.socialmedia.DTOs.CommentRequest;
 import com.example.socialmedia.Entities.Comment;
 
 @Mapper(componentModel = "spring")
@@ -17,5 +17,5 @@ public interface CommentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "post", ignore = true)
-    Comment toComment(CreateCommentRequest request);
+    Comment toComment(CommentRequest request);
 }
