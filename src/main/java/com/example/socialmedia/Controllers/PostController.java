@@ -28,7 +28,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponse);
     }
 
-    @GetMapping("{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<List<PostResponse>> getPostsByUsers(@PathVariable String username) {
         List<PostResponse> posts = postService.getPostsByUser(username);
 

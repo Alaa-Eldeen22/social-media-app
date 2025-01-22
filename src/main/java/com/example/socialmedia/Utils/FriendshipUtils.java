@@ -2,7 +2,6 @@ package com.example.socialmedia.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.socialmedia.DTOs.FollowFriendshipResponse;
 import com.example.socialmedia.Entities.Friendship;
 import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Enums.FriendshipStatus;
