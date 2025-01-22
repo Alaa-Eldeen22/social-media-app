@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,11 +10,12 @@ import com.example.socialmedia.DTOs.RegisterRequest;
 import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Exception.UserNotFoundException;
 import com.example.socialmedia.Repositories.UserRepository;
+import com.example.socialmedia.Services.IAuthService;
 import com.example.socialmedia.Utils.JwtUtil;
 import com.example.socialmedia.Utils.RandomUsername;
 
 @Service
-public class AuthService {
+public class AuthService implements IAuthService{
 
     @Autowired
     private UserRepository userRepository;

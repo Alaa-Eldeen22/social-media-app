@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.socialmedia.DTOs.AuthResponse;
 import com.example.socialmedia.DTOs.LoginRequest;
 import com.example.socialmedia.DTOs.RegisterRequest;
-import com.example.socialmedia.Services.AuthService;
+import com.example.socialmedia.Services.impl.AuthService;
 
 import jakarta.validation.Valid;
 

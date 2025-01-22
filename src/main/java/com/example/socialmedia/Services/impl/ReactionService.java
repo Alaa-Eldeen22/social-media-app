@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import java.util.List;
 
@@ -16,10 +16,11 @@ import com.example.socialmedia.Mappers.ReactionMapper;
 import com.example.socialmedia.Repositories.CommentRepository;
 import com.example.socialmedia.Repositories.PostRepository;
 import com.example.socialmedia.Repositories.ReactionRepository;
+import com.example.socialmedia.Services.IReactionService;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
-public class ReactionService {
+public class ReactionService implements IReactionService {
 
     private final ReactionRepository reactionRepository;
     private final PostRepository postRepository;

@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import java.util.List;
 
@@ -10,11 +10,12 @@ import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Enums.FriendshipStatus;
 import com.example.socialmedia.Mappers.FriendshipMapper;
 import com.example.socialmedia.Repositories.FriendshipRepository;
+import com.example.socialmedia.Services.IFriendshipService;
 import com.example.socialmedia.Utils.FriendshipUtils;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
-public class FriendshipService {
+public class FriendshipService  implements IFriendshipService{
 
     private final FriendshipRepository friendshipRepository;
     private final UserUtils userUtils;

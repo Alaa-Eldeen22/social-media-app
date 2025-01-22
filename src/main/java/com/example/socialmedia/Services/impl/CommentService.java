@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,10 +15,11 @@ import com.example.socialmedia.Exception.UnauthorizedException;
 import com.example.socialmedia.Mappers.CommentMapper;
 import com.example.socialmedia.Repositories.CommentRepository;
 import com.example.socialmedia.Repositories.PostRepository;
+import com.example.socialmedia.Services.ICommentService;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
-public class CommentService {
+public class CommentService implements ICommentService {
 
     private final CommentRepository commentRepository;
 

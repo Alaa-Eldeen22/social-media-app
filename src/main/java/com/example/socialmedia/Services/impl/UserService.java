@@ -1,8 +1,7 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.example.socialmedia.DTOs.ProfileResponse;
@@ -10,9 +9,10 @@ import com.example.socialmedia.DTOs.UpdateProfileRequest;
 import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Exception.UserNotFoundException;
 import com.example.socialmedia.Repositories.UserRepository;
+import com.example.socialmedia.Services.IUserService;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository;

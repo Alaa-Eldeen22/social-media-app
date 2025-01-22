@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.socialmedia.DTOs.FollowFriendshipResponse;
-import com.example.socialmedia.Services.FollowService;
+import com.example.socialmedia.Services.impl.FollowService;
 
 @RestController
 @RequestMapping("/api/follows")

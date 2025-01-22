@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.socialmedia.Services.UserService;
+import com.example.socialmedia.Services.impl.UserService;
 import com.example.socialmedia.Utils.JwtUtil;
 
 import jakarta.servlet.FilterChain;

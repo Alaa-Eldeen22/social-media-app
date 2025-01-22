@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import java.util.List;
 

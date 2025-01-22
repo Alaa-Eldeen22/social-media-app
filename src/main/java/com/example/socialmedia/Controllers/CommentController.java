@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.socialmedia.DTOs.CommentResponse;
+import com.example.socialmedia.Services.impl.CommentService;
 import com.example.socialmedia.DTOs.CommentRequest;
-import com.example.socialmedia.Services.CommentService;
 
 @RestController
 @RequestMapping("/api/comments")

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.socialmedia.DTOs.ReactionRequest;
 import com.example.socialmedia.DTOs.ReactionResponse;
-import com.example.socialmedia.Services.ReactionService;
+import com.example.socialmedia.Services.impl.ReactionService;
 
 @RestController
 @RequestMapping("/api/reactions")

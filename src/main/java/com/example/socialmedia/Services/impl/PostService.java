@@ -1,4 +1,4 @@
-package com.example.socialmedia.Services;
+package com.example.socialmedia.Services.impl;
 
 import java.util.stream.Collectors;
 
@@ -12,12 +12,14 @@ import com.example.socialmedia.Entities.Post;
 import com.example.socialmedia.Exception.PostNotFoundException;
 import com.example.socialmedia.Mappers.PostMapper;
 import com.example.socialmedia.Repositories.PostRepository;
+import com.example.socialmedia.Services.ICommentService;
+import com.example.socialmedia.Services.IPostService;
 import com.example.socialmedia.Utils.UserUtils;
 
 import java.util.List;
 
 @Service
-public class PostService {
+public class PostService implements IPostService {
 
     @Autowired
     private PostRepository postRepository;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.socialmedia.DTOs.ProfileResponse;
 import com.example.socialmedia.DTOs.UpdateProfileRequest;
-import com.example.socialmedia.Services.UserService;
+import com.example.socialmedia.Services.impl.UserService;
 
 @RestController
 @RequestMapping("/api/users")
