@@ -1,14 +1,18 @@
 package com.example.socialmedia.Mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
 import com.example.socialmedia.DTOs.ReactionResponse;
 import com.example.socialmedia.Entities.Reaction;
 
-@Mapper(componentModel = "spring")
-public interface ReactionMapper {
+public class ReactionMapper {
 
-    @Mapping(source = "user.username", target = "username")
-    ReactionResponse toReactionResponse(Reaction reaction);
+    public static ReactionResponse toReactionResponse(Reaction reaction) {
+        if (reaction == null) {
+            return null;
+        }
+        ReactionResponse response = new ReactionResponse();
+        response.setId(reaction.getId());
+        response.setType(reaction.getType()); // ReactionType is assumed to be an enum.
+        response.setUsername(reaction.getUser() != null ? reaction.getUser().getUsername() : null);
+        return response;
+    }
 }

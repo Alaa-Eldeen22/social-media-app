@@ -1,21 +1,31 @@
 package com.example.socialmedia.Mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
-import com.example.socialmedia.DTOs.CommentResponse;
 import com.example.socialmedia.DTOs.CommentRequest;
+import com.example.socialmedia.DTOs.CommentResponse;
 import com.example.socialmedia.Entities.Comment;
 
-@Mapper(componentModel = "spring")
-public interface CommentMapper {
+public class CommentMapper {
 
-    @Mapping(source = "user.username", target = "username")
-    @Mapping(source = "post.id", target = "postId")
-    CommentResponse toCommentResponse(Comment comment);
+    public static CommentResponse toCommentResponse(Comment comment) {
+        if (comment == null) {
+            return null;
+        }
+        CommentResponse response = new CommentResponse();
+        response.setId(comment.getId());
+        response.setContent(comment.getContent());
+        response.setUsername(comment.getUser() != null ? comment.getUser().getUsername() : null);
+        response.setPostId(comment.getPost() != null ? comment.getPost().getId() : null);
+        response.setCreatedAt(comment.getCreatedAt());
+        return response;
+    }
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "post", ignore = true)
-    Comment toComment(CommentRequest request);
+    public static Comment toComment(CommentRequest request) {
+        if (request == null) {
+            return null;
+        }
+        Comment comment = new Comment();
+        comment.setContent(request.getContent());
+        // Other fields such as `user` and `post` will be set later in the service layer
+        return comment;
+    }
 }

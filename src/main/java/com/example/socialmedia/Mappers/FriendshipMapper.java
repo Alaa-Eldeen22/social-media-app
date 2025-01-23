@@ -1,12 +1,19 @@
 package com.example.socialmedia.Mappers;
 
-import org.mapstruct.Mapper;
-
 import com.example.socialmedia.DTOs.FollowFriendshipResponse;
 import com.example.socialmedia.Entities.User;
 
-@Mapper(componentModel = "spring")
-public interface FriendshipMapper {
+public class FriendshipMapper {
 
-    FollowFriendshipResponse toFollowFriendshipResponse(User user);
+    public static FollowFriendshipResponse toFollowFriendshipResponse(User user) {
+        if (user == null) {
+            return null;
+        }
+        FollowFriendshipResponse response = new FollowFriendshipResponse();
+        response.setUsername(user.getUsername());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setProfilePictureUrl(user.getProfilePictureUrl());
+        return response;
+    }
 }
