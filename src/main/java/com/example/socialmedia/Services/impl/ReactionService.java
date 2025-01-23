@@ -25,17 +25,14 @@ public class ReactionService implements IReactionService {
     private final ReactionRepository reactionRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final ReactionMapper reactionMapper;
     private final UserUtils userUtils;
 
     public ReactionService(ReactionRepository reactionRepository, PostRepository postRepository,
             CommentRepository commentRepository,
-            ReactionMapper reactionMapper,
             UserUtils userUtils) {
         this.reactionRepository = reactionRepository;
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
-        this.reactionMapper = reactionMapper;
         this.userUtils = userUtils;
     }
 
@@ -53,7 +50,7 @@ public class ReactionService implements IReactionService {
         reaction.setPost(post);
         Reaction savedReaction = reactionRepository.save(reaction);
 
-        return reactionMapper.toReactionResponse(savedReaction);
+        return ReactionMapper.toReactionResponse(savedReaction); // Use manual mapper
     }
 
     public ReactionResponse reactToComment(Long commentId, ReactionRequest request) {
@@ -69,7 +66,7 @@ public class ReactionService implements IReactionService {
         reaction.setComment(comment);
 
         Reaction savedReaction = reactionRepository.save(reaction);
-        return reactionMapper.toReactionResponse(savedReaction);
+        return ReactionMapper.toReactionResponse(savedReaction); // Use manual mapper
     }
 
     public List<ReactionResponse> getReactionsByPost(Long postId) {
@@ -78,7 +75,8 @@ public class ReactionService implements IReactionService {
         }
 
         return reactionRepository.findByPostId(postId).stream()
-                .map(reactionMapper::toReactionResponse).toList();
+                .map(ReactionMapper::toReactionResponse) // Use manual mapper
+                .toList();
     }
 
     public List<ReactionResponse> getReactionsByComment(Long commentId) {
@@ -87,13 +85,14 @@ public class ReactionService implements IReactionService {
         }
 
         return reactionRepository.findByCommentId(commentId).stream()
-                .map(reactionMapper::toReactionResponse).toList();
+                .map(ReactionMapper::toReactionResponse) // Use manual mapper
+                .toList();
     }
 
     public void deleteReact(Long reactionId) {
         if (reactionRepository.existsById(reactionId)) {
             Reaction reaction = reactionRepository.findById(reactionId).get();
-            if (reaction.getUser().getId() != userUtils.getAuthenticatedUser().getId()) {
+            if (!reaction.getUser().getId().equals(userUtils.getAuthenticatedUser().getId())) {
                 throw new UnauthorizedException("You are not allowed to delete this reaction");
             }
 

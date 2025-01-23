@@ -23,17 +23,14 @@ public class CommentService implements ICommentService {
 
     private final CommentRepository commentRepository;
 
-    private final CommentMapper commentMapper;
-
     private final PostRepository postRepository;
 
     private final UserUtils userUtils;
 
-    public CommentService(CommentRepository commentRepository, CommentMapper commentMapper,
+    public CommentService(CommentRepository commentRepository,
             PostRepository postRepository,
             UserUtils userUtils) {
         this.commentRepository = commentRepository;
-        this.commentMapper = commentMapper;
         this.postRepository = postRepository;
         this.userUtils = userUtils;
     }
@@ -42,22 +39,19 @@ public class CommentService implements ICommentService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
 
-        Comment comment = commentMapper.toComment(request);
+        Comment comment = CommentMapper.toComment(request);
 
         comment.setUser(userUtils.getAuthenticatedUser());
-
         comment.setPost(post);
 
         Comment savedComment = commentRepository.save(comment);
 
-        return commentMapper.toCommentResponse(savedComment);
-
+        return CommentMapper.toCommentResponse(savedComment);
     }
 
     public List<CommentResponse> getCommentsByPostId(Long postId) {
-
         return commentRepository.findByPostIdOrderByCreatedAtDesc(postId).stream()
-                .map(commentMapper::toCommentResponse).collect(Collectors.toList());
+                .map(CommentMapper::toCommentResponse).collect(Collectors.toList());
     }
 
     public CommentResponse updateComment(Long commentId, CommentRequest request) {
@@ -69,11 +63,10 @@ public class CommentService implements ICommentService {
 
         Comment updatedComment = commentRepository.save(comment);
 
-        return commentMapper.toCommentResponse(updatedComment);
+        return CommentMapper.toCommentResponse(updatedComment);
     }
 
     public void deleteComment(Long commentId) {
-
         Comment comment = getCommentById(commentId);
         commentRepository.delete(comment);
     }
@@ -87,6 +80,5 @@ public class CommentService implements ICommentService {
         }
 
         return comment;
-
     }
 }

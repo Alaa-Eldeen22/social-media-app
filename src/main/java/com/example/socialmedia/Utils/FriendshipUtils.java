@@ -1,6 +1,7 @@
 package com.example.socialmedia.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.example.socialmedia.Entities.Friendship;
 import com.example.socialmedia.Entities.User;
@@ -8,6 +9,7 @@ import com.example.socialmedia.Enums.FriendshipStatus;
 import com.example.socialmedia.Exception.FriendshipException;
 import com.example.socialmedia.Repositories.FriendshipRepository;
 
+@Component
 public class FriendshipUtils {
 
     @Autowired

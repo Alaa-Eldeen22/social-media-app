@@ -15,20 +15,17 @@ import com.example.socialmedia.Utils.FriendshipUtils;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
-public class FriendshipService  implements IFriendshipService{
+public class FriendshipService implements IFriendshipService {
 
     private final FriendshipRepository friendshipRepository;
     private final UserUtils userUtils;
     private final FriendshipUtils friendshipUtils;
-    private final FriendshipMapper friendshipMapper;
 
     public FriendshipService(FriendshipRepository friendshipRepository, UserUtils userUtils,
-            FriendshipUtils friendshiptUtils,
-            FriendshipMapper friendshipMapper) {
+            FriendshipUtils friendshipUtils) {
         this.friendshipRepository = friendshipRepository;
         this.userUtils = userUtils;
-        this.friendshipUtils = friendshiptUtils;
-        this.friendshipMapper = friendshipMapper;
+        this.friendshipUtils = friendshipUtils;
     }
 
     // Send a friend request
@@ -63,14 +60,18 @@ public class FriendshipService  implements IFriendshipService{
     public List<FollowFriendshipResponse> getSentFriendRequests() {
         User user = userUtils.getAuthenticatedUser();
         return friendshipRepository.findByRequesterAndStatus(user, FriendshipStatus.PENDING).stream()
-                .map(friendship -> friendshipMapper.toFollowFriendshipResponse(friendship.getReceiver())).toList();
+                .map(friendship -> FriendshipMapper.toFollowFriendshipResponse(friendship.getReceiver())) // Use manual
+                                                                                                          // mapper
+                .toList();
     }
 
     // Get pending friend requests received by a user
     public List<FollowFriendshipResponse> getReceivedFriendRequests() {
         User user = userUtils.getAuthenticatedUser();
         return friendshipRepository.findByReceiverAndStatus(user, FriendshipStatus.PENDING).stream()
-                .map(friendship -> friendshipMapper.toFollowFriendshipResponse(friendship.getRequester())).toList();
+                .map(friendship -> FriendshipMapper.toFollowFriendshipResponse(friendship.getRequester())) // Use manual
+                                                                                                           // mapper
+                .toList();
     }
 
     // Get friends list
@@ -78,9 +79,8 @@ public class FriendshipService  implements IFriendshipService{
         User user = userUtils.getAuthenticatedUser();
         return friendshipRepository.findByRequesterOrReceiver(user, user).stream()
                 .filter(friendship -> friendship.getStatus() == FriendshipStatus.ACCEPTED)
-                .map(friendship -> friendshipMapper.toFollowFriendshipResponse(
+                .map(friendship -> FriendshipMapper.toFollowFriendshipResponse( // Use manual mapper
                         friendship.getReceiver().equals(user) ? friendship.getReceiver() : friendship.getRequester()))
                 .toList();
     }
-
 }

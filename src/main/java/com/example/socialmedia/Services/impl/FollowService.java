@@ -9,20 +9,19 @@ import com.example.socialmedia.Entities.Follow;
 import com.example.socialmedia.Entities.User;
 import com.example.socialmedia.Mappers.FriendshipMapper;
 import com.example.socialmedia.Repositories.FollowRepository;
+import com.example.socialmedia.Services.IFollowService;
 import com.example.socialmedia.Utils.UserUtils;
 
 @Service
-public class FollowService {
+public class FollowService implements IFollowService {
 
     private final FollowRepository followRepository;
     private final UserUtils userUtils;
-    private final FriendshipMapper friendshipMapper;
 
     // Constructor injection
-    public FollowService(FollowRepository followRepository, UserUtils userUtils, FriendshipMapper friendshipMapper) {
+    public FollowService(FollowRepository followRepository, UserUtils userUtils) {
         this.followRepository = followRepository;
         this.userUtils = userUtils;
-        this.friendshipMapper = friendshipMapper;
     }
 
     public void followUser(String followedUsername) {
@@ -50,7 +49,7 @@ public class FollowService {
         User user = userUtils.getAuthenticatedUser();
 
         return followRepository.findByFollowed(user).stream()
-                .map(follow -> friendshipMapper.toFollowFriendshipResponse(follow.getFollower()))
+                .map(follow -> FriendshipMapper.toFollowFriendshipResponse(follow.getFollower()))
                 .toList();
     }
 
@@ -59,7 +58,7 @@ public class FollowService {
         User user = userUtils.getAuthenticatedUser();
 
         return followRepository.findByFollower(user).stream()
-                .map(follow -> friendshipMapper.toFollowFriendshipResponse(follow.getFollowed()))
+                .map(follow -> FriendshipMapper.toFollowFriendshipResponse(follow.getFollowed()))
                 .toList();
     }
 }

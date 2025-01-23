@@ -1,6 +1,7 @@
 package com.example.socialmedia.Services.impl;
 
 import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,8 @@ import com.example.socialmedia.Entities.Post;
 import com.example.socialmedia.Exception.PostNotFoundException;
 import com.example.socialmedia.Mappers.PostMapper;
 import com.example.socialmedia.Repositories.PostRepository;
-import com.example.socialmedia.Services.ICommentService;
 import com.example.socialmedia.Services.IPostService;
 import com.example.socialmedia.Utils.UserUtils;
-
-import java.util.List;
 
 @Service
 public class PostService implements IPostService {
@@ -27,24 +25,20 @@ public class PostService implements IPostService {
     @Autowired
     private UserUtils userUtils;
 
-    @Autowired
-    private PostMapper postMapper;
-
     public PostResponse createPost(CreatePostRequest request) {
-
-        Post post = postMapper.toPost(request);
+        Post post = PostMapper.toPost(request); // Use manual mapper
         post.setUser(userUtils.getAuthenticatedUser());
 
         Post savedPost = postRepository.save(post);
 
-        return postMapper.toPostResponse(savedPost);
+        return PostMapper.toPostResponse(savedPost); // Use manual mapper
     }
 
     public List<PostResponse> getPostsByUser(String username) {
-
         List<Post> posts = postRepository.findByUserUsernameOrderByCreatedAtDesc(username);
+
         return posts.stream()
-                .map(postMapper::toPostResponse)
+                .map(PostMapper::toPostResponse) // Use manual mapper
                 .collect(Collectors.toList());
     }
 
@@ -61,7 +55,7 @@ public class PostService implements IPostService {
         }
 
         Post updatedPost = postRepository.save(post);
-        return postMapper.toPostResponse(updatedPost);
+        return PostMapper.toPostResponse(updatedPost); // Use manual mapper
     }
 
     public void deletePost(Long postId) {
@@ -76,5 +70,4 @@ public class PostService implements IPostService {
         return postRepository.findByIdAndUserUsername(postId, username)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
     }
-
 }

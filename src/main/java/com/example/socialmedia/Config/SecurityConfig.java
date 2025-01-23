@@ -29,8 +29,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless
                                                                                                               // session
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Allow all requests by default; secure individual endpoints using
-                                                  // method-level annotations like @PreAuthorize in controllers
+                        .anyRequest().permitAll()
+                // endpoints using
+                // method-level annotations like @PreAuthorize in controllers
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
