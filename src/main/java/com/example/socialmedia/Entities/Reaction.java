@@ -1,7 +1,6 @@
 package com.example.socialmedia.Entities;
 
 import com.example.socialmedia.Enums.ReactionType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,7 +16,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "reactionss")
+@Table(name = "reactions")
 public class Reaction {
 
     @Id
@@ -28,11 +27,11 @@ public class Reaction {
     private ReactionType type;
 
     @ManyToOne
-    @Column(name = "post_id", updatable = false)
+    @JoinColumn(name = "post_id", updatable = false)
     private Post post;
 
     @ManyToOne
-    @Column(name = "comment_id", updatable = false)
+    @JoinColumn(name = "comment_id", updatable = false)
     private Comment comment;
 
     @ManyToOne

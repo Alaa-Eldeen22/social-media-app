@@ -2,8 +2,6 @@ package com.example.socialmedia.Entities;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,25 +14,24 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "comments")
-public class Comment {
+@Table(name = "messages")
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
+
     @Column(nullable = false)
     private String content;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id", updatable = false)
-    private Post post;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", updatable = false)
-    private User user;
+    @Column(nullable = false)
+    private LocalDateTime sentAt = LocalDateTime.now();
 }
